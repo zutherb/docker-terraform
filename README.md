@@ -11,11 +11,16 @@ https://www.terraform.io/
 How to use this image
 
 ```
-docker run --rm codecentric/terraform:0.6.16 [--version] [--help] <command> [<args>]
+docker run --rm codecentric/terraform:0.7.0 [--version] [--help] <command> [<args>]
 docker run -e TERRAFORM_BUCKET=codecentric \
-           -e TERRAFORM_STATE_FILE=big-data-group-dcos-cluster.tstate \
-           -e AWS_ACCESS_KEY_FILE=~/.aws/AWS_ACCESS_KEY \
-           -e AWS_SECRET_KEY_FILE=~/.aws/AWS_SECRET_ACCESS_KEY \
+           -e TERRAFORM_STATE_FILE=big-data-group-dcos-cluster.tfstate \
+           -e AWS_ACCESS_KEY_FILE=/access_key \
+           -e AWS_SECRET_KEY_FILE=/secret_key \
+           -v ~/.aws/AWS_ACCESS_KEY:/access_key \
+           -v ~/.aws/AWS_SECRET_ACCESS_KEY:/secret_key \
+           -v ~/development/busfloatingdata/terraform:/project \
+           -w /project \
+           codecentric/terraform:0.7.0 apply
 ```
 
 ## Using

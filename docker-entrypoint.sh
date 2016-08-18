@@ -17,9 +17,13 @@ echo "- TERRAFORM_BUCKET"
 echo "- TERRAFORM_STATE_FILE"
 echo "**************************************************";
 
-if [ -z "$TERRAFORM_BUCKET" ] && [ -z "$TERRAFORM_STATE_FILE" ];
+if [ -n "$TERRAFORM_BUCKET" ] && [ -n "$TERRAFORM_STATE_FILE" ];
 then
-    /bin/terraform remote config -backend=s3 -backend-config="bucket=$TERRAFORM_BUCKET" -backend-config="key=$TERRAFORM_STATE_FILE" -backend-config="region=eu-central-1"
+    echo "fetch state file \"$TERRAFORM_STATE_FILE\" from Bucket \"$TERRAFORM_BUCKET\"";
+    /bin/terraform remote config -backend=s3 \
+                                 -backend-config="bucket=$TERRAFORM_BUCKET" \
+                                 -backend-config="key=$TERRAFORM_STATE_FILE" \
+                                 -backend-config="region=eu-central-1"
 fi
 
 /bin/terraform $@
