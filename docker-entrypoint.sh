@@ -15,15 +15,16 @@ echo "- AWS_SECRET_KEY_FILE"
 echo "If you want to use remote config, please set:"
 echo "- TERRAFORM_BUCKET"
 echo "- TERRAFORM_STATE_FILE"
+echo "- TERRAFORM_STATE_REGION"
 echo "**************************************************";
 
-if [ -n "$TERRAFORM_BUCKET" ] && [ -n "$TERRAFORM_STATE_FILE" ];
+if [ -n "$TERRAFORM_BUCKET" ] && [ -n "$TERRAFORM_STATE_FILE" ] && [ -n "$TERRAFORM_STATE_REGION" ];
 then
     echo "fetch state file \"$TERRAFORM_STATE_FILE\" from Bucket \"$TERRAFORM_BUCKET\"";
     /bin/terraform remote config -backend=s3 \
                                  -backend-config="bucket=$TERRAFORM_BUCKET" \
                                  -backend-config="key=$TERRAFORM_STATE_FILE" \
-                                 -backend-config="region=eu-central-1"
+                                 -backend-config="region=$TERRAFORM_STATE_REGION"
 fi
 
 /bin/terraform $@
